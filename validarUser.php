@@ -5,10 +5,13 @@
     $user = $_POST['user'];
     $password =$_POST['pssw'];
     $token = $_POST['token'];
-    if($token==$tokensimulado){
-        header("Location: http://localhost/codingchallenge/"); 
+    if($token==$tokensimulado && $password=="123123"){
+        header("Location: http://localhost/codingchallenge/");
         $_SESSION['TOKEN'] = $token;
+   }else{
+    header("Location: http://localhost:3000/");
    }
+
 
 
 
