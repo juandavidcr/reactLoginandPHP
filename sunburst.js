@@ -20,8 +20,8 @@ d3.json("data.json", function(error, nodeData) {
     // Find the root node of our data, and begin sizing process.
     var root = d3.hierarchy(nodeData)
         .sum(function (d) { 
-            console.log("name: "+d.name+ " size: "+d.size+ "// "+d.text );
-
+            console.log("name: "+d.name+ " size: "+d.size+ "// "+d.text +" source: "+d.source+ " sent " +d.sentiment );
+            
             return d.size
         });
 
@@ -32,18 +32,25 @@ d3.json("data.json", function(error, nodeData) {
         .endAngle(function (d) { return d.x1 })
         .innerRadius(function (d) { return d.y0 })
         .outerRadius(function (d) { return d.y1 });
-    
+        
     // Add a <g> element for each node in the data, then append <path> elements and draw lines based on the arc
     // variable calculations. Last, color the lines and the slices.
     g.selectAll('g')
         .data(root.descendants())
         .enter().append('g').attr("class", "node").append('path')
+        .attr("class","classpath")
         .attr("display", function (d) { return d.depth ? null : "none"; })
         .attr("d", arc)
         .style('stroke', '#fff')
         .style("fill", function (d) { return color((d.children ? d : d.parent).data.name ); 
         });
-        
+
+
+        g.selectAll('path')
+        .on('click', function(d, i) {
+            d3.select('.status').style("fill","orange")
+            .text(' Seleccionaste ' + i + ' txt: '+d.parent.size);
+        });
 
     // Populate the <text> elements with our data-driven titles.
     g.selectAll(".node")
@@ -70,3 +77,4 @@ function computeTextRotation(d) {
     return (angle < 120 || angle > 270) ? angle : angle + 180;  // labels as rims
     //return (angle < 180) ? angle - 90 : angle + 90;  // labels as spokes
 }
+
