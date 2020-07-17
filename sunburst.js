@@ -48,10 +48,13 @@ d3.json("data.json", function(error, nodeData) {
 
         g.selectAll('path')
         .on('click', function(d, i) {
-            d3.select('.status').style("fill","orange")
-            .text(' Seleccionaste ' + i + ' txt: '+d.parent.size);
+            d3.select('.status').style("background","orange")
+            .text(' Seleccionaste ' + i + ' txt: '+d.data.name);
         });
-
+        // g.selectAll('.classpath').on('click', function(d, i) {
+        //     d3.select('.status').style("fill","orange");
+        // });
+        console.log(g.selectAll("path"));
     // Populate the <text> elements with our data-driven titles.
     g.selectAll(".node")
         .append("text")
